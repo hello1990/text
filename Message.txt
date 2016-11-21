@@ -1,0 +1,81 @@
+package cn.common;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
+/**
+ * 消息工具类
+ * 
+ * @author
+ *
+ */
+public class Message {
+
+	/**
+	 * RspMessage对象转换成json字符串
+	 * 
+	 * @param rspmessages
+	 * @return String
+	 */
+	public static String getRspJson(RspMessage rspmessages) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(Constant.REP_HEAD, rspmessages.getHead());
+		map.put(Constant.REP_BODY, rspmessages.getBody());
+		return JsonUtil.mapToJson(map);
+	}
+
+	/**
+	 * ReqMessage对象转换成json字符串
+	 * 
+	 * @param reqmessages
+	 * @return String
+	 */
+	public static String getReqJson(ReqMessage reqmessages) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(Constant.REQ_HEAD, reqmessages.getHead());
+		map.put(Constant.REQ_BODY, reqmessages.getBody());
+		return JsonUtil.mapToJson(map);
+	}
+
+	/**
+	 * Map对象转换成json字符串
+	 * 
+	 * @param map
+	 * @return String
+	 */
+	public static String getJson(Map<String, Object> map) {
+		return JsonUtil.mapToJson(map);
+	}
+
+	/**
+	 * json字符串转换成ReqMessage对象
+	 * 
+	 * @param json
+	 * @return ReqMessage
+	 */
+	public static ReqMessage getReqMessage(String json) {
+		Map<String, Object> map = JsonUtil.jsonToMap(json);
+		ReqMessage reqmessage = new ReqMessage((Map<String, Object>) map.get(Constant.REQ_HEAD),
+				(Map<String, Object>) map.get(Constant.REQ_BODY));
+		return reqmessage;
+	}
+
+	/**
+	 * json字符串转换成map对象
+	 * 
+	 * @param json
+	 * @return Map<String,Object>
+	 */
+	public static Map<String, Object> getMap(String json) {
+		return JsonUtil.jsonToMap(json);
+	}
+
+	public static void main(String args[]) {
+		RspMessage rspmessage = new RspMessage();
+		rspmessage.setHeadV("TRAN_PROCESS", "955599");
+		rspmessage.setDataV("TELPHONE", "18701017138");
+		rspmessage.setDataV("AMT", "50.00");
+		System.out.println(getRspJson(rspmessage));
+	}
+}
